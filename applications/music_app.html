@@ -1,11 +1,14 @@
 <h3 class="cell card-header" id='video-title'></h3>
+<br>
+<input type="text" onchange="searchList(this.value)" data-role="input" data-search-button="true">
+<br>
 <video id="video-media" class="light fg-cyan" data-aspect-ratio="hd"
        data-loop-icon="<span class='mif-loop2 fg-cyan'></span>"
        data-mute-icon="<span class='mif-volume-mute2 fg-cyan'></span>"
-       data-play-icon="<img src='../static/images/metro/media_player/play.png'>"
+       data-play-icon="<img src='https://circuitalminds.github.io/static/images/metro/media_player/play.png'>"
        data-role="video-player"
        data-src=""
-       data-stop-icon="<img src='../static/images/metro/media_player/stop.png'>"
+       data-stop-icon="<img src='https://circuitalminds.github.io/static/images/metro/media_player/stop.png'>"
        data-volume="0.9"
        data-on-end="setVideo('next')"
        data-on-play="setPlayer('play')"
@@ -14,7 +17,3 @@
        data-volume-low-icon="<span class='mif-volume-low fg-cyan'></span>"
        data-volume-medium-icon="<span class='mif-volume-medium fg-cyan'></span>">
 </video>
-<br>
-<input type="text" onchange="searchList(this.value)" data-role="input" data-search-button="true">
-<br>
-<div id="song_list"></div>
