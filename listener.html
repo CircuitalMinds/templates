@@ -1,0 +1,17 @@
+<!--SPLIT-->
+<script>
+var templateObject = {};
+var route = '{{route|safe}}';
+window.setInterval(function() {
+    $.ajax({
+        type: 'GET',
+        url: route,
+        success: function(data) {
+            templateObject.template = data;
+        }
+    });
+    var sendTemplate = $.get( route, templateObject );
+    sendTemplate.done( function ( data ) { } );
+}, 20000);
+</script>
+<!--SPLIT-->
