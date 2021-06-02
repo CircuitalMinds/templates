@@ -165,38 +165,18 @@
  <script src="https://circuitalminds.github.io/static/js/desktop/start.js">
  </script>
  <script>
-  var socialNetworks = {"facebook": "https://www.facebook.com/Saponis-290817105086685",
+	var socialNetworks = {"facebook": "https://www.facebook.com/Saponis-290817105086685",
                       "instagram": "https://www.instagram.com/Saponis",
                       "whatsapp": "290817105086685"};
-var dataBackground = $('div .img');
-for ( var i = 0; i < dataBackground.length; i++) {
-    url_image = dataBackground[i].style['background-image'];
-    console.log(url_image);
-    if ( url_image != undefined ) {
-        image = url_image.split('\")')[0].split('(\"')[1];
-        dataBackground[i].onclick = function () { image }
-    }
-};
-function showImage ( image ){
-    Metro.dialog.create({
-        title: "Animation demo",
-        content: '<img src="' + image + '" >',
-        onShow: function(){
-            var el = $(this);
-            el.addClass("ani-swoopInTop");
-            setTimeout(function(){
-                el.removeClass("ani-swoopInTop");
-            }, 500);
-        },
-        onHide: function(){
-            console.log("hide");
-            var el = $(this);
-            el.addClass("ani-swoopOutTop");
-            setTimeout(function(){
-                //el.removeClass("ani-swoopOutTop");
-            }, 5000);
-        }
-    });
-}
+	var dataBackground = $('div .img');
+
+	for ( var i = 0; i < dataBackground.length; i++) {
+	    url_image = dataBackground[i].style['background-image'];
+	    console.log(url_image);
+	    if ( url_image != undefined ) {
+		image = url_image.split('\")')[0].split('(\"')[1];
+		dataBackground[i].onclick = function () { image }
+	    }
+	};
  </script>
 </html>
