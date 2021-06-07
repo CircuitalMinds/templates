@@ -1,9 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://circuitalminds.github.io/static/metro/css/metro-all.css" rel="stylesheet">
+</head>
+
+<body>
+
 <h3 class="cell card-header" id='video-title'></h3>
 <br>
-<input type="text" onchange="searchList(this.value)" data-role="input" data-search-button="true">
+<input id="search" onclick="Search_List('')" onchange="Search_List( this.value )" type="text" data-role="input" data-search-button="true" placeholder="Search for video..">
 <br>
+<div class="pos-relative">
+    <div id="search-result" class="bg-white"
+         data-role="dropdown">
+    </div>
+</div>
+
+<div id="search-charms" data-opacity=".5" data-role="charms" data-position="right"></div>
+
 <video id="video-media" class="bg-light fg-cyan" data-aspect-ratio="hd"
        data-loop-icon="<span class='mif-loop2 fg-cyan'></span>"
        data-mute-icon="<span class='mif-volume-mute2 fg-cyan'></span>"
@@ -18,8 +33,10 @@
        data-volume-low-icon="<span class='mif-volume-low fg-cyan'></span>"
        data-volume-medium-icon="<span class='mif-volume-medium fg-cyan'></span>">
 </video>
-<script src="https://circuitalminds.github.io/static/metro/js/metro.js"></script>
 
+
+</body>
+<script src="https://circuitalminds.github.io/static/metro/js/metro.js"></script>
 <script>
 var videoTitle = document.getElementById('video-title');
 var videoMedia = document.getElementById('video-media');  
@@ -28,6 +45,10 @@ var volumePlus;
 var Previous;
 var Play;
 var Next;
+var query_search = '';
+window.onload = function() {
+  videoMedia.poster = "https://circuitalminds.github.io/static/images/desktop/julia.gif";
+};
 
 var music_app = {
     video_list: {},
@@ -39,8 +60,85 @@ var music_app = {
     }
 };
 
-window.onload = function() {
-  videoMedia.poster = "https://circuitalminds.github.io/static/images/desktop/julia.gif";
+
+var location_names = 'abcdefghijklmnopqrstuvwxyz'.split('').map((l) => 'music_' + l );
+for ( var i = 0; i < location_names.length; i++ ) { 
+	repo = location_names[i];
+	name = repo.replace("music_", "");
+    loc = 'https://raw.githubusercontent.com/circuitalmynds/' + repo + '/main/video_list.json';    
+    music_app.video_list[name] = {};
+    getVideos(loc, music_app.video_list[name]);
+};
+
+
+function getVideos ( location, video_object ) {    
+    var getVideoList = $.get( location );
+    getVideoList.done( function( data ) {            
+		videos = JSON.parse(data).video_list;
+		titles = Object.keys(videos);
+		for ( var n = 0; n < titles.length; n++ ) {
+			video_object[titles[n]] = videos[titles[n]];
+		};
+    });
+};
+
+
+function Search_Template ( title, image ) {
+	var strObj = '<li class="button card-content bg-darkTeal bg-dark-hover fg-light">'
+				 + '<img class="avatar" src="' + image + '">'
+				 + '<span class="label">'+ title +'</span>'
+				 + '<span class="second-label"> 1 min </span>'
+				 + '</li>';
+	return strObj;
+};
+
+$('input')[0].addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   Search_List($('#search')[0].value);
+  }
+});
+
+function Search_List ( q ) {
+    image ="https://circuitalminds.github.io/static/images/desktop/julia.gif";
+	if ( q != '' & q != undefined & q != null ) {
+		query_result = '';
+		q = q.toLowerCase()
+		if ( music_app.video_list[q[0]] != undefined ) {			
+			query_data = Object.keys(music_app.video_list[q[0]]);
+			filter_data = queryFilter(query_data, q);
+			if ( filter_data.length == 0 ) {				
+				query_result += Search_Template('search not found', image);
+			} else {			
+				for ( title of filter_data ) {
+					query_result += Search_Template(title, image);
+				};
+			};
+		} else {
+			query_result += Search_Template('search not found', image);
+		};
+		query_search = q;
+    	$('#search-result')[0].setAttribute("class", "bg-darkTeal fg-white");    	
+    	$('#search-result')[0].innerHTML = '<ul class="feed-list bg-darkTeal fg-light"><li class="title"> Search Result </li>' + query_result + '</ul>';
+    	$('#search-result')[0].style['display'] = 'block';
+   	} else if ( q == '' ) {   	
+   		query_search = q;
+   		$('#search-result')[0].setAttribute("class", "bg-white");
+   		$('#search-result')[0].innerHTML = '';   		
+   		$('#search-result')[0].style['display'] = 'none';
+   	};
+};
+
+
+function queryFilter ( array_data, target ) {	
+	result = [];
+	for ( element of array_data ) {
+		r = element.toLowerCase();
+		if ( r.search(target) != -1 || target.split('').map( l => r[target.indexOf(l)] == l ).indexOf(false) == -1 ) {
+	        result.push(element);
+	    };
+	};
+	return result;
 };
 
 function getMusicButtons () {
@@ -60,56 +158,10 @@ function getMusicButtons () {
     };
 };
 
-
-function getVideos () {
-    const containers = 'abcdefghijklmnopqrstuvwxyz'.split('').map((c) => 'music_' +  c);
-    for (var i = 0; i < containers.length; i++) {
-        git_location = 'https://raw.githubusercontent.com/circuitalmynds/' + containers[i] + '/main/video_list.json';
-        var getVideoList = $.get( git_location );
-        getVideoList.done( function( data ) {
-            var videos = JSON.parse(data).video_list;
-            var names = Object.keys(videos);
-            for (var j = 0; j < names.length; j++) {
-                music_app.video_list[names[j]] = videos[names[j]];
-            };
-        });
-    };
-};
-
-function getMusicTemplate () {
-    git_location = 'https://raw.githubusercontent.com/CircuitalMinds/templates/main/applications/music_app.html';
-    var getTemplate = $.get( git_location );
-    getTemplate.done( function( data ) {
-        music_app.template.content = data;
-    });
-    getMusicButtons();
-};
-
-function initMusicApp () {
-    getVideos();
-    getMusicTemplate();
-    music_app.open_window = function () {
-        openApp(music_app);
-        volumeMinus = document.getElementById('volume-minus');
-        volumePlus = document.getElementById('volume-plus');
-        Previous = document.getElementById('previous');
-        Play = document.getElementById('play');
-        Next = document.getElementById('next');
-        videoTitle = document.getElementById('video-title');
-        videoMedia = document.getElementById('video-media');    	
-        videos = music_app.video_list;
-        title = Object.keys(videos)[0];
-        url = videos[title];
-    };
-};
-
-
 function setPlayer ( option ) {
     if ( option == 'stop' ) {
-        Play.className = "mif-play";
         videoMedia.pause();
     } else if ( option == 'play' ) {
-        Play.className = "mif-stop";
         videoMedia.play();
     }
 };
@@ -140,19 +192,19 @@ function setVideoFromList ( Index ) {
 };
 
 function setVideoTo ( option ) {
-    video_list = Object.keys(music_app.video_list);
-    Index = video_list.indexOf(videoTitle.textContent);
+    video_list = music_app.video_list.a;
+    Index = 0;
     if ( option == 'next' ) {
         Index = Index + 1;
     } else if ( option == 'previous' ) {
         Index = Index - 1;
     };
-    title = video_list[Index];
-    url = music_app.video_list[title];    
+    title = Object.keys(video_list)[Index];
+    url = video_list[title];    
     videoTitle.innerHTML = title;
     videoMedia.setAttribute('src', url);
     setPlayer('play');
 };
 </script>
   
-  
+</html>  
