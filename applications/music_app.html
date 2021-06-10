@@ -5,9 +5,9 @@
 <link href="https://circuitalminds.github.io/static/metro/css/metro-all.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-dark fg-white">
 
-<h3 class="cell card-header" id='video-title'></h3>
+<h3 class="cell card-header fg-teal" id='video-title'></h3>
 <br>
 <input id="search" onclick="Search_List('')" onchange="Search_List( this.value )" type="text" data-role="input" data-search-button="true" placeholder="Search for video..">
 <br>
@@ -16,9 +16,22 @@
          data-role="dropdown">
     </div>
 </div>
-
-<div id="search-charms" data-opacity=".5" data-role="charms" data-position="right"></div>
-
+<br>
+<div class="cell-12-md multi-action">
+    <button class="action-button rotate-minus bg-teal fg-white"
+            onclick="$(this).toggleClass('active')">
+        <span class="icon"><span class="mif-apps"></span></span>
+    </button>
+    <ul class="p-2 actions drop-right">
+        <li id="minus" class="bg-teal"><a><span class="mif-volume-minus"></span></a></li>
+        <li id="plus" class="bg-teal"><a><span class="mif-volume-plus"></span></a></li>
+        <li id="previous" class="bg-teal"><a><span class="mif-previous"></span></a></li>
+        <li id="play" class="bg-teal"><a><span class="mif-play"></span></a></li>
+        <li id="pause" class="bg-teal"><a><span class="mif-pause"></span></a></li>
+        <li id="next" class="bg-teal"><a><span class="mif-next"></span></a></li>
+    </ul>
+</div>
+<br>
 <video id="video-media" class="bg-light fg-cyan" data-aspect-ratio="hd"
        data-loop-icon="<span class='mif-loop2 fg-cyan'></span>"
        data-mute-icon="<span class='mif-volume-mute2 fg-cyan'></span>"
@@ -26,9 +39,9 @@
        data-role="video-player"
        data-stop-icon="<img src='https://circuitalminds.github.io/static/images/metro/media_player/stop.png'>"
        data-volume="0.9"
-       data-on-end="setVideoTo('next')"
-       data-on-play="setPlayer('play')"
-       data-on-pause="setPlayer('stop')"
+       data-on-end="music_app.change_video('next')"
+       data-on-play="music_app.play_video();"
+       data-on-pause="music_app.pause_video();"
        data-volume-high-icon="<span class='mif-volume-high fg-cyan'></span>"
        data-volume-low-icon="<span class='mif-volume-low fg-cyan'></span>"
        data-volume-medium-icon="<span class='mif-volume-medium fg-cyan'></span>">
@@ -39,41 +52,22 @@
 <script src="https://circuitalminds.github.io/static/metro/js/metro.js"></script>
 <script>
 var videoTitle = document.getElementById('video-title');
-var videoMedia = document.getElementById('video-media');  
-var volumeMinus;
-var volumePlus;
-var Previous;
-var Play;
-var Next;
+var videoMedia = document.getElementById('video-media');
 var query_search = '';
-window.onload = function() {
-  videoMedia.poster = "https://circuitalminds.github.io/static/images/desktop/julia.gif";
-};
+var music_app = {};
 
-var music_app = {
-    video_list: {},
-    template: {
-        title: 'Music App',
-        content: '',
-        buttons: [],
-        icon: "windows"
-    }
-};
-
-
+music_app.video_list = {};
 var location_names = 'abcdefghijklmnopqrstuvwxyz'.split('').map((l) => 'music_' + l );
-for ( var i = 0; i < location_names.length; i++ ) { 
+for ( var i = 0; i < location_names.length; i++ ) {
 	repo = location_names[i];
 	name = repo.replace("music_", "");
     loc = 'https://raw.githubusercontent.com/circuitalmynds/' + repo + '/main/video_list.json';    
     music_app.video_list[name] = {};
     getVideos(loc, music_app.video_list[name]);
 };
-
-
-function getVideos ( location, video_object ) {    
+function getVideos ( location, video_object ) {
     var getVideoList = $.get( location );
-    getVideoList.done( function( data ) {            
+    getVideoList.done( function( data ) {
 		videos = JSON.parse(data).video_list;
 		titles = Object.keys(videos);
 		for ( var n = 0; n < titles.length; n++ ) {
@@ -82,9 +76,96 @@ function getVideos ( location, video_object ) {
     });
 };
 
+var Vol = [];
+for ( var i = 0; i <= 10; i++ ) {
+  Vol.push( i  / 10 );
+};
+music_app.add_volume = function () {
+    if ( videoMedia.volume != 1 ) {
+        videoMedia.volume = Vol[Vol.indexOf(videoMedia.volume) + 1];
+    };
+};
+music_app.down_volume = function () {
+    if ( videoMedia.volume != 0 ) {
+        videoMedia.volume = Vol[Vol.indexOf(videoMedia.volume) - 1];
+    };
+};
+
+music_app.random_list = function () {
+    key_list = Object.keys(this.video_list);
+    return this.video_list[key_list[Math.round(Math.random() * key_list.length  - 1)]];
+};
+music_app.random_video = function () {
+    videos = this.random_list();
+    titles = Object.keys(videos);
+    index = Math.round(Math.random() * titles.length - 1);
+    title = titles[index];
+    videoTitle.innerHTML = title;
+    videoMedia.setAttribute('src', videos[title]);
+    videoMedia.play();
+};
+music_app.videos_by_title = function ( title ) {
+    return this.video_list[title[0].toLowerCase()];
+};
+music_app.change_video = function ( option ) {
+    current_title = videoTitle.textContent;
+    if ( current_title == '' ) {
+        music_app.random_video();
+    } else {
+        videos = this.videos_by_title(current_title);
+        titles = Object.keys(videos);
+        if ( titles.indexOf(current_title) > titles.length ) {
+            this.random_video();
+        } else {
+            index = titles.indexOf(current_title) + {previous: -1, next: 1}[option];
+            title = titles[index];
+            videoTitle.innerHTML = title;
+            videoMedia.setAttribute('src', videos[title]);
+            videoMedia.play();
+        };
+    };
+};
+music_app.play_video = function () {
+    if ( videoMedia.src == '' ) {
+        music_app.random_video();
+    } else {
+        videoMedia.play();
+    };
+};
+music_app.pause_video = function () {
+    videoMedia.pause();
+};
+music_app.change_video_from = function ( title ) {
+    videos = this.videos_by_title(title);
+    videoTitle.innerHTML = title;
+    videoMedia.setAttribute('src', videos[title]);
+    videoMedia.play();
+};
+
+function set_buttons () {
+    var volume_buttons = {
+        minus: music_app.down_volume,
+        plus: music_app.add_volume
+    };
+    var media_buttons = {
+        play: function () { music_app.play_video() },
+        pause: function () { music_app.pause_video() },
+        previous: function () { music_app.change_video('previous') },
+        next: function () { music_app.change_video('next') }
+    };
+    for ( option in volume_buttons ) {
+        button = $('#' + option)[0];
+        button.onclick = volume_buttons[option];
+    };
+    for ( option in media_buttons ) {
+        button = $('#' + option)[0];
+        button.onclick = media_buttons[option];
+    };
+};
 
 function Search_Template ( title, image ) {
-	var strObj = '<li class="button card-content bg-darkTeal bg-dark-hover fg-light">'
+	var strObj = '<li class="button card-content bg-darkTeal bg-dark-hover fg-light" '
+	             + 'onclick=music_app.change_video_from(this.getElementsByClassName("label")[0].textContent) >'
 				 + '<img class="avatar" src="' + image + '">'
 				 + '<span class="label">'+ title +'</span>'
 				 + '<span class="second-label"> 1 min </span>'
@@ -129,7 +210,6 @@ function Search_List ( q ) {
    	};
 };
 
-
 function queryFilter ( array_data, target ) {	
 	result = [];
 	for ( element of array_data ) {
@@ -141,70 +221,10 @@ function queryFilter ( array_data, target ) {
 	return result;
 };
 
-function getMusicButtons () {
-    var settings = {
-        "volume-minus": 'setVolume("minus")',
-        "volume-plus": 'setVolume("plus")',
-        "previous": 'setVideoTo("previous")',
-        "play": 'setPlayer(Play.className.replace("mif-", ""))',
-        "next": 'setVideoTo("next")'
-    };
-    var button_ids = Object.keys(settings).reverse();
-    for (var i = 0; i < button_ids.length; i++) {
-        var button = {};
-        button.html = '<span id="' + button_ids[i] + '" class="mif-' + button_ids[i] + '"></span>';
-        button.onclick = settings[button_ids[i]];
-        music_app.template.buttons.push(button);
-    };
-};
-
-function setPlayer ( option ) {
-    if ( option == 'stop' ) {
-        videoMedia.pause();
-    } else if ( option == 'play' ) {
-        videoMedia.play();
-    }
-};
-
-function setVolume ( option ) {
-    var volume = Math.round(videoMedia.volume * 100);
-    var options = {up: function () {volume = volume + 10},
-                   down: function () {volume = volume - 10}
-                   };
-    options[option]();
-    volumePlus.disabled = false;
-    volumeMinus.disabled = false;
-    if ( volume == 100 ) {
-        volumePlus.disabled = true;
-    } else if ( volume == 0 ) {
-        volumeMinus.disabled = true;
-    };
-    videoMedia.setAttribute('data-volume', volume / 100);
-};
-
-function setVideoFromList ( Index ) {
-    videos = music_app.video_list;
-    title = Object.keys(videos)[Index];
-    url = videos[title];
-    getVideo(title, url);
-    videoTitle.innerHTML = title;
-    videoMedia.setAttribute('src', url);
-};
-
-function setVideoTo ( option ) {
-    video_list = music_app.video_list.a;
-    Index = 0;
-    if ( option == 'next' ) {
-        Index = Index + 1;
-    } else if ( option == 'previous' ) {
-        Index = Index - 1;
-    };
-    title = Object.keys(video_list)[Index];
-    url = video_list[title];    
-    videoTitle.innerHTML = title;
-    videoMedia.setAttribute('src', url);
-    setPlayer('play');
-};
+$( document ).ready(function() {
+    videoMedia.poster = "https://circuitalminds.github.io/static/images/desktop/julia.gif";
+    set_buttons();
+});
 </script>
   
 </html>  
