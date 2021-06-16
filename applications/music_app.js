@@ -8,7 +8,7 @@ var location_names = 'abcdefghijklmnopqrstuvwxyz'.split('').map((l) => 'music_' 
 for ( var i = 0; i < location_names.length; i++ ) {
 	repo = location_names[i];
 	name = repo.replace("music_", "");
-    loc = 'https://raw.githubusercontent.com/circuitalmynds/' + repo + '/main/video_list.json';    
+    loc = 'https://raw.githubusercontent.com/circuitalmynds/' + repo + '/main/info.json';    
     music_app.video_list[name] = {};
     getVideos(loc, music_app.video_list[name]);
 };
