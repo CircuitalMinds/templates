@@ -18,7 +18,10 @@ function getVideos ( location, video_object ) {
 		videos = JSON.parse(data).video_list;
 		titles = Object.keys(videos);
 		for ( var n = 0; n < titles.length; n++ ) {
-			video_object[titles[n]] = videos[titles[n]];
+			video_object[titles[n]] = {
+				url: videos[titles[n]].url,
+				image: videos[titles[n]].image
+			};
 		};
     });
 };
@@ -48,7 +51,7 @@ music_app.random_video = function () {
     index = Math.round(Math.random() * titles.length - 1);
     title = titles[index];
     videoTitle.innerHTML = title;
-    videoMedia.setAttribute('src', videos[title]);
+    videoMedia.setAttribute('src', videos[title].url);
     videoMedia.play();
 };
 music_app.videos_by_title = function ( title ) {
@@ -67,7 +70,7 @@ music_app.change_video = function ( option ) {
             index = titles.indexOf(current_title) + {previous: -1, next: 1}[option];
             title = titles[index];
             videoTitle.innerHTML = title;
-            videoMedia.setAttribute('src', videos[title]);
+            videoMedia.setAttribute('src', videos[title].url);
             videoMedia.play();
         };
     };
@@ -85,7 +88,7 @@ music_app.pause_video = function () {
 music_app.change_video_from = function ( title ) {
     videos = this.videos_by_title(title);
     videoTitle.innerHTML = title;
-    videoMedia.setAttribute('src', videos[title]);
+    videoMedia.setAttribute('src', videos[title].url);
     videoMedia.play();
 };
 
@@ -133,13 +136,14 @@ function Search_List ( q ) {
 		query_result = '';
 		q = q.toLowerCase()
 		if ( music_app.video_list[q[0]] != undefined ) {			
-			query_data = Object.keys(music_app.video_list[q[0]]);
+			videos = music_app.video_list[q[0]];
+			query_data = Object.keys(videos);
 			filter_data = queryFilter(query_data, q);
 			if ( filter_data.length == 0 ) {				
 				query_result += Search_Template('search not found', image);
 			} else {			
 				for ( title of filter_data ) {
-					query_result += Search_Template(title, image);
+					query_result += Search_Template(title, videos[title].image);
 				};
 			};
 		} else {
