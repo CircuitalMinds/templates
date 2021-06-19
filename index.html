@@ -4,17 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-
-    {% for meta_tag in meta_tags %}
-      <meta {% for attr in meta_tag.keys() %} {{attr}}="{{meta_tag[attr]}}" {% endfor %} />
-    {% endfor %}
-
-    <link href="{{ metro['css']['href'] }}" rel="{{ metro['css']['rel'] }}" />
-    <link rel="shortcut icon" href="{{ static['images'] }}/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="{{ static['images'] }}/favicon.ico" type="image/x-icon">
-    <script src="{{ ajax['src'] }}" ></script>
-    <title>{{ title }}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Circuital | Minds</title>
 </head>
-{% block content %}
-{% endblock %}
+<a href="/applications/music_app/app">Music App</a>
 </html>
