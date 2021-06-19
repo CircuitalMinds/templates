@@ -9,10 +9,10 @@
 
 <h3 class="cell card-header fg-teal" id='video-title'></h3>
 <br>
-<input id="search" onclick="Search_List('')" onchange="Search_List( this.value )" type="text" data-role="input" data-search-button="true" placeholder="Search for video..">
+<input id="query" onclick="APP.searcher.get_query('')" onchange="APP.searcher.get_query( this.value )" type="text" data-role="input" data-search-button="true" placeholder="Search for video..">
 <br>
 <div class="pos-relative">
-    <div id="search-result" class="bg-white"
+    <div id="result" class="bg-white"
          data-role="dropdown">
     </div>
 </div>
@@ -38,10 +38,10 @@
        data-play-icon="<img src='https://circuitalminds.github.io/static/images/metro/media_player/play.png'>"
        data-role="video-player"
        data-stop-icon="<img src='https://circuitalminds.github.io/static/images/metro/media_player/stop.png'>"
-       data-volume="0.9"
-       data-on-end="music_app.change_video('next')"
-       data-on-play="music_app.play_video();"
-       data-on-pause="music_app.pause_video();"
+       data-volume="1"
+       data-on-end="APP.set_video('next')"
+       data-on-play="APP.on_play()"
+       data-on-pause="APP.on_pause();"
        data-volume-high-icon="<span class='mif-volume-high fg-cyan'></span>"
        data-volume-low-icon="<span class='mif-volume-low fg-cyan'></span>"
        data-volume-medium-icon="<span class='mif-volume-medium fg-cyan'></span>">
@@ -50,9 +50,8 @@
 
 </body>
 <script src="https://circuitalminds.github.io/static/metro/js/metro.js"></script>
-<script src="./music_app.js"></script>
-<script src="app_loader.js"></script>
-<script src="video_player.js"></script>
 <script src="search_filter.js"></script>
-  
+<script src="video_player.js"></script>
+<script src="app_loader.js"></script>
+
 </html>  

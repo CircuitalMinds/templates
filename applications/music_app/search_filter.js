@@ -1,81 +1,84 @@
-function WordMatches ( word, target ) {
-    matches = 0;
-    for ( var i = 0; i < word.length; i++ ) {
-        if ( word[i] == target[i] ) {
-            matches += 1;
-        } else {
-            break;
+function config_searcher ( app ) {
+    app.searcher.query = APP.GetData('query');
+    app.searcher.result = APP.GetData('result');
+    app.searcher.query_submit = $('input')[0];
+    app.searcher.register = '';
+
+    app.searcher.Template = function ( index, title, image ) {
+        var strObj = '<li class="button card-content bg-darkTeal bg-dark-hover fg-light" '
+                     + 'onclick=APP.set_video_from_list(INDEX); >'.replace("INDEX", index)
+                     + '<img class="avatar" src="' + image + '">'
+                     + '<span id="title" class="label">'+ title +'</span>'
+                     + '<span class="second-label"> 1 min </span>'
+                     + '</li>';
+        return strObj;
+    };
+
+    app.searcher.Filter = function ( query, array_data ) {
+        data = {};
+        query_data = [];
+        for ( var j = 0; j < query.length + 1; j++ ) {data[j] = [];};
+        for ( element of array_data ) {            
+            result = this.WordMatches(query.toLowerCase(), element.toLowerCase());
+            data[result].push(element);
         };
+        matches = Object.keys(data).sort().reverse();
+        for ( m of matches ) {
+            if ( data[m].length > 0 ) {for ( r of data[m] ) {query_data.push(r)}};
+        };
+        return query_data;
     };
-    return matches;
-};
 
-function SearchFilter ( query, array_data ) {
-    data = {};
-    query_data = [];
-    for ( var j = 0; j < query.length + 1; j++ ) {
-        data[j] = [];
+    app.searcher.WordMatches = function ( word, target ) {
+        matches = 0;
+        for ( var i = 0; i < word.length; i++ ) {
+            if ( word[i] == target[i] ) {matches += 1} else {break}
+        };
+        return matches;
     };
-    for ( element of array_data ) {
-          data[WordMatches(query.toLowerCase(), element.toLowerCase())].push(element);
-    };
-    matches = Object.keys(data).sort().reverse();
-    for ( m of matches ) {
-        if ( data[m].length > 0 ) {
-            for ( r of data[m] ) {
-                query_data.push(r);
+
+    app.searcher.get_query = function ( q ) {
+        default_image = app.static.images + "/desktop/julia.gif";
+        if ( q != '' & q != undefined & q != null ) {
+            query_result = '';
+            q = q.toLowerCase()
+            if ( app.videos[q[0]] != undefined ) {
+                query_data = Object.keys(app.videos[q[0]]);
+                filter_data = this.Filter(q, query_data);
+                if ( filter_data.length == 0 ) {
+                    query_result += this.Template('search not found', default_image)
+                } else {
+                    for ( var i = 0; i < filter_data.length; i++ ) {
+                        query_result += this.Template(i, filter_data[i], app.videos[q[0]][filter_data[i]].image)
+                    };
+                };
+            } else {
+                query_result += this.Template('search not found', default_image)
             };
-        };                
+            this.register = query_result;
+        } else if ( q == '' ) {
+            this.register = '';
+        };
+        this.SearchDisplay(this.register);
     };
-    return query_data;    
+
+    app.searcher.SearchDisplay = function ( data ) {
+        if ( data == '' ) {
+            this.result.setAttribute("class", "bg-white");
+            this.result.innerHTML = '';
+            this.result.style['display'] = 'none';
+        } else {
+            this.result.setAttribute("class", "bg-darkTeal fg-white");
+            txt = '<ul class="feed-list bg-darkTeal fg-light"><li class="title"> Search Result </li>' + data + '</ul>';
+            this.result.innerHTML = txt;
+            this.result.style['display'] = 'block';
+        }
+    };
+
+    app.searcher.query_submit.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            app.searcher.get_query(app.searcher.query.value);
+        }
+    });
 };
-
-
-
-function Search_Template ( title, image ) {
-	var strObj = '<li class="button card-content bg-darkTeal bg-dark-hover fg-light" '
-	             + 'onclick=music_app.change_video_from(this.getElementsByClassName("label")[0].textContent) >'
-				 + '<img class="avatar" src="' + image + '">'
-				 + '<span class="label">'+ title +'</span>'
-				 + '<span class="second-label"> 1 min </span>'
-				 + '</li>';
-	return strObj;
-};
-
-$('input')[0].addEventListener("keyup", function(event) {
-  if (event.keyCode === 13) {
-   event.preventDefault();
-   Search_List($('#search')[0].value);
-  }
-});
-
-function Search_List ( q ) {
-    image ="https://circuitalminds.github.io/static/images/desktop/julia.gif";
-	if ( q != '' & q != undefined & q != null ) {
-		query_result = '';
-		q = q.toLowerCase()
-		if ( music_app.video_list[q[0]] != undefined ) {			
-			query_data = Object.keys(music_app.video_list[q[0]]);
-			filter_data = queryFilter(query_data, q);
-			if ( filter_data.length == 0 ) {				
-				query_result += Search_Template('search not found', image);
-			} else {			
-				for ( title of filter_data ) {
-					query_result += Search_Template(title, image);
-				};
-			};
-		} else {
-			query_result += Search_Template('search not found', image);
-		};
-		query_search = q;
-    	$('#search-result')[0].setAttribute("class", "bg-darkTeal fg-white");    	
-    	$('#search-result')[0].innerHTML = '<ul class="feed-list bg-darkTeal fg-light"><li class="title"> Search Result </li>' + query_result + '</ul>';
-    	$('#search-result')[0].style['display'] = 'block';
-   	} else if ( q == '' ) {   	
-   		query_search = q;
-   		$('#search-result')[0].setAttribute("class", "bg-white");
-   		$('#search-result')[0].innerHTML = '';   		
-   		$('#search-result')[0].style['display'] = 'none';
-   	};
-};
-
