@@ -1,0 +1,18 @@
+
+<script>
+var static_folder = '{{ Template.static | safe }}';
+</script>
+<script src="{{ Template.app.script }}"></script>
+<div id="chat0" 
+     data-role="chat"
+     data-avatar="{{ Template.static }}/images/avatar.jpg"
+     data-name="Alan Matzumiya"
+     data-height="400"
+     data-title="Support chat"
+     data-welcome="Welcome to CircuitalMinds chat!"
+     data-cls-message-left="default fg-dark"
+     data-cls-message-right="info"
+     data-cls-send-button="info"
+     data-on-send="SendMessage">
+</div>
+

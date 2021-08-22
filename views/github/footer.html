@@ -1,0 +1,26 @@
+<footer class="container-fluid">
+    <div class="container border-top bd-default pt-2 mt-10">
+        <div class="row flex-align-center">
+            <div class="cell-md-5 text-center-md text-left">
+                <ul class="inline-list reduce-2">
+                    <li>&copy; 2021 CircuitalMinds.</li>
+                    {% for item in ['Terms', 'Privacy', 'Security', 'Status', 'Help'] %}
+                    <li><a href="">{{ item }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="cell-md-2 text-center">
+                <div>
+                    <a href="" class="no-decor fg-lightGray"><span class="mif-github mif-2x"></span></a>
+                </div>
+            </div>
+            <div class="cell-md-5 text-center-md text-right">
+                <ul class="inline-list reduce-2">
+                    {% for item in ['Contact', 'API', 'Blog', 'About'] %}
+                    <li><a href="">{{ item }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

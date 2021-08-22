@@ -1,0 +1,6 @@
+{% for name, content in Template.meta.default.items() %}
+<meta name="{{ name }}" content="{{ content }}" />
+{% endfor %}
+{% for prop, content in Template.meta.open_graph.items() %}
+<meta property="{{ prop }}" content="{{ content }}" />
+{% endfor %}

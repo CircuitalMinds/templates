@@ -1,0 +1,177 @@
+<body class="m4-cloak">
+
+    <div class="p-4" data-position="right" data-role="charms" id="charm">
+    <div class="h-100 d-flex flex-column">
+
+        <div class="charm-top">
+            <div class="text-center m-4">
+            <span>
+                CircuitalMinds | {{ subtitle(view) }}
+            </span>
+            </div>
+        {% for notify in notifies %}
+            <div class="charm-notify">
+            <img class="icon" src="{{ notify['image'] }}"/>
+            <div class="title">{{ notify['title'] }}</div>
+            <div class="content">{{ notify['content'] }}</div>
+            <div class="secondary">{{ notify['secondary'] }}</div>
+            </div>
+        {% endfor %}
+            
+        <div class="text-center m-4">
+            <span>Information</span>
+        </div>
+        <div class="charm-notify">
+        <span class="icon mif-info"></span>
+        <div class="title">You have a news</div>
+        <div class="content">Our Fractalized World.</div>
+        </div>    
+        <div class="clear mt-4 reduce-1">
+            <span class="place-left c-pointer">Collapse</span>
+            <span class="place-right c-pointer">Clear notifies</span>
+        </div>
+        </div>
+
+    <div class="charm-bottom mt-auto">
+        
+        {% for items in ([('tablet-landscape', 'Tablet mode', ''), ('wifi-full', 'Network', ''), 
+                        ('cog', 'Preferences', ''), ('rocket', 'Fly mode', 'active')], 
+                        [('target', 'Position', ' active'), ('bluetooth', 'Not Connected', '')]) %}
+            {% for [icon, caption, status] in items %}
+                <div class="d-flex">
+                    <div class="charm-tile{{ status }}">
+                    <span class="icon mif-{{ icon }}"></span>
+                    <span class="caption">{{ caption }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+    </div>
+
+    </div>
+    </div>
+
+    <div class="desktop">
+
+        <div class="window-area">
+            <div class="grid">
+            <div class="row m-3 text-center">
+            <a class="cell-md-1 flex-align-self-start fg-white fg-teal-hover" id="data"
+                onclick="storage_app.open_window('data')" style="text-decoration: none;">
+                <span class="mif-folder mif-3x fg-teal"></span><br/>
+                data
+            </a>
+            </div>
+            <div class="row m-3 text-center">
+            <a class="cell-md-1 flex-align-self-start fg-white fg-teal-hover" id="documents"
+                    onclick="storage_app.open_window('documents')" style="text-decoration: none;">
+                    <span class="mif-folder mif-3x fg-teal"></span><br/>
+                    documents
+            </a>
+            </div>
+            <div class="row m-3 text-center">
+            <a class="cell-md-1 flex-align-self-start fg-white fg-teal-hover" id="media"
+                    onclick="storage_app.open_window('media')" style="text-decoration: none;">
+                    <span class="mif-folder mif-3x fg-teal"></span><br/>
+                    media
+            </a>
+            </div>
+            <div class="row m-3 text-center">
+            <a class="cell-md-1 flex-align-self-start fg-white fg-teal-hover" id="scripts"
+                    onclick="storage_app.open_window('scripts')" style="text-decoration: none;">
+                    <span class="mif-folder mif-3x fg-teal"></span><br/>
+                    scripts
+            </a>
+            </div>
+            </div>            
+        </div>
+
+        <div class="task-bar">
+        <div class="task-bar-section">            
+            <button class="task-bar-item" id="start-menu-toggle">
+            <span class="mif-windows"></span>
+            </button>
+            <div class="start-menu" data-role="dropdown" data-toggle-element="#start-menu-toggle">
+                <div class="start-menu-inner">
+                <div class="explorer">
+                <ul class="v-menu w-100 bg-brandColor2 fg-white">
+                    <li><a onclick="music_app.open_window();">Music</a></li>
+                    <li><a onclick="chat_app.open_window();">Chat</a></li>
+                    <li><a onclick="inbox_app.open_window();">Inbox</a></li>
+                    <li><a onclick="console_app.open_window();">Console</a></li>
+                    <li><a onclick="start.open_window();">Start</a></li>
+                </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="task-bar-section tasks"></div>
+        <div class="task-bar-section system-tray ml-auto">
+        <button class="task-bar-item" id="open-charm" onclick="openCharm()">
+            <span class="mif-comment"></span>
+        </button>
+        <span class="pr-4" style="line-height: 40px;">
+            <span class="w-auto fg-white reduce-1" data-role="clock" data-show-date="false">            
+            </span>
+        </span>
+        </div>
+        </div>
+
+    </div>
+<script src="https://circuitalminds.github.io/static/metro/js/metro.js">
+</script>
+<script src="https://circuitalminds.github.io/static/js/desktop/desktop.js">
+</script>
+<script src="https://circuitalminds.github.io/static/js/desktop/storage_app.js">
+</script>
+<script>
+   storage_app.url = 'https://circuitalminds-storage-app.herokuapp.com';
+    storage_app.directories = {'data': '<ul id="storage-dir" class="container pl-2 pr-2 bg-dark fg-teal" data-role="listview" data-view="table" data-select-node="true" data-structure=\'{"date": true, "name": true}\'>\n<li onclick=storage_app.open_window("get_from/data?filename=test.json") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="test.json" data-date="Sat May 29 02:26:00 2021" data-name="test.json"></li>\n</ul>', 'documents': '<ul id="storage-dir" class="container pl-2 pr-2 bg-dark fg-teal" data-role="listview" data-view="table" data-select-node="true" data-structure=\'{"date": true, "name": true}\'>\n<li onclick=storage_app.open_window("get_from/documents?filename=CONTRIBUTING.md") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="CONTRIBUTING.md" data-date="Sat May 29 02:26:01 2021" data-name="CONTRIBUTING.md"></li>\n<li onclick=storage_app.open_window("get_from/documents?filename=cv.pdf") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="cv.pdf" data-date="Wed May 26 18:21:18 2021" data-name="cv.pdf"></li>\n</ul>', 'home': [{'icon': 'mif-folder mif-3x fg-teal', 'name': 'data', 'open_script': "storage_app.open_window('data')"}, {'icon': 'mif-folder mif-3x fg-teal', 'name': 'documents', 'open_script': "storage_app.open_window('documents')"}, {'icon': 'mif-folder mif-3x fg-teal', 'name': 'media', 'open_script': "storage_app.open_window('media')"}, {'icon': 'mif-folder mif-3x fg-teal', 'name': 'scripts', 'open_script': "storage_app.open_window('scripts')"}], 'media': '<ul id="storage-dir" class="container pl-2 pr-2 bg-dark fg-teal" data-role="listview" data-view="table" data-select-node="true" data-structure=\'{"date": true, "name": true}\'>\n<li onclick=storage_app.open_window("pictures") data-icon=\'<span class="mif-folder mif-3x fg-teal">\' data-caption="Pictures" data-date="Sun May 30 21:15:52 2021" data-name="pictures"></li>\n<li onclick=storage_app.open_window("videos") data-icon=\'<span class="mif-folder mif-3x fg-teal">\' data-caption="Videos" data-date="Sun May 30 21:15:52 2021" data-name="videos"></li>\n<li onclick=storage_app.open_window("get_from/media?filename=Boneless.png") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="Boneless.png" data-date="Sat May 29 19:09:24 2021" data-name="Boneless.png"></li>\n</ul>', 'pictures': '<ul id="storage-dir" class="container pl-2 pr-2 bg-dark fg-teal" data-role="listview" data-view="table" data-select-node="true" data-structure=\'{"date": true, "name": true}\'>\n<li onclick=storage_app.open_window("get_from/pictures?filename=circuitalminds.png") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="circuitalminds.png" data-date="Wed May 26 18:21:18 2021" data-name="circuitalminds.png"></li>\n<li onclick=storage_app.open_window("get_from/pictures?filename=julia.gif") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="julia.gif" data-date="Sat May 29 10:54:12 2021" data-name="julia.gif"></li>\n<li onclick=storage_app.open_window("get_from/pictures?filename=mandelbrot.gif") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="mandelbrot.gif" data-date="Wed May 26 18:21:18 2021" data-name="mandelbrot.gif"></li>\n<li onclick=storage_app.open_window("get_from/pictures?filename=zeta_function.gif") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="zeta_function.gif" data-date="Sat May 29 11:02:42 2021" data-name="zeta_function.gif"></li>\n</ul>', 'scripts': '<ul id="storage-dir" class="container pl-2 pr-2 bg-dark fg-teal" data-role="listview" data-view="table" data-select-node="true" data-structure=\'{"date": true, "name": true}\'>\n<li onclick=storage_app.open_window("get_from/scripts?filename=criba.js") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="criba.js" data-date="Sat May 29 02:26:00 2021" data-name="criba.js"></li>\n<li onclick=storage_app.open_window("get_from/scripts?filename=test_script.py") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="test_script.py" data-date="Sat May 29 02:26:01 2021" data-name="test_script.py"></li>\n</ul>', 'videos': '<ul id="storage-dir" class="container pl-2 pr-2 bg-dark fg-teal" data-role="listview" data-view="table" data-select-node="true" data-structure=\'{"date": true, "name": true}\'>\n<li onclick=storage_app.open_window("get_from/videos?filename=At%20The%20Drive-In%20-%2001.%20Arcarsenal-f-ecr6e_Ksg.mp4") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="At The Drive-In - 01. Arcarsenal-f-ecr6e_Ksg.mp4" data-date="Mon May 31 00:59:24 2021" data-name="At The Drive-In - 01. Arcarsenal-f-ecr6e_Ksg.mp4"></li>\n<li onclick=storage_app.open_window("get_from/videos?filename=Earth%20Angel%20~%20The%20Crew%20Cuts%20%281955%29%2878%20rpm%29-ePn-lkJkDv0.mp4") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="Earth Angel ~ The Crew Cuts (1955)(78 rpm)-ePn-lkJkDv0.mp4" data-date="Sat May 29 02:25:59 2021" data-name="Earth Angel ~ The Crew Cuts (1955)(78 rpm)-ePn-lkJkDv0.mp4"></li>\n<li onclick=storage_app.open_window("get_from/videos?filename=Flyte%20-%20Light%20me%20up-23fYycfSO20.mp4") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="Flyte - Light me up-23fYycfSO20.mp4" data-date="Sat May 29 02:25:59 2021" data-name="Flyte - Light me up-23fYycfSO20.mp4"></li>\n<li onclick=storage_app.open_window("get_from/videos?filename=I%20Can%27t%20Afford%20To%20Dream%20~%20Artie%20Shaw%20%26%20His%20Orchestra%20%281939%29-8ZaBVBQsn0Y.mp4") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="I Can\'t Afford To Dream ~ Artie Shaw & His Orchestra (1939)-8ZaBVBQsn0Y.mp4" data-date="Sat May 29 02:25:59 2021" data-name="I Can\'t Afford To Dream ~ Artie Shaw & His Orchestra (1939)-8ZaBVBQsn0Y.mp4"></li>\n<li onclick=storage_app.open_window("get_from/videos?filename=I%20Got%20A%20Hole%20In%20My%20Pirogue%20~%20Johnny%20Horton%20%20%281956%29-dLyv75YOaMA.mp4") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="I Got A Hole In My Pirogue ~ Johnny Horton  (1956)-dLyv75YOaMA.mp4" data-date="Sat May 29 02:25:59 2021" data-name="I Got A Hole In My Pirogue ~ Johnny Horton  (1956)-dLyv75YOaMA.mp4"></li>\n<li onclick=storage_app.open_window("get_from/videos?filename=La_Polla_Records_-_Y_ahora_que-szFP_NalqCE.mp4") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="La_Polla_Records_-_Y_ahora_que-szFP_NalqCE.mp4" data-date="Sat May 29 02:25:59 2021" data-name="La_Polla_Records_-_Y_ahora_que-szFP_NalqCE.mp4"></li>\n<li onclick=storage_app.open_window("get_from/videos?filename=Polo%20.mp4") data-icon=\'<span class="mif-file-empty mif-3x fg-teal">\' data-caption="Polo .mp4" data-date="Sat May 29 02:25:59 2021" data-name="Polo .mp4"></li>\n</ul>'};
+    Desktop.setup();
+
+    function openApp ( app ) {
+        template = app.template;
+        var w = Desktop.createWindow({
+            resizeable: true,
+            draggable: true,
+            customButtons: template.buttons,
+            width: "100%",
+            height: "100%",
+            icon: "<span class='mif-" + template.icon + "'></span>",
+            title: template.title,
+            content: "<div class='p-2'>" + template.content + "</div>",
+            clsContent: "bg-dark fg-teal"
+        });
+    };
+
+</script>
+<script src="https://circuitalminds.github.io/static/js/desktop/music_app.js">
+</script>
+<script src="https://circuitalminds.github.io/static/js/desktop/console_app.js">
+</script>
+<script src="https://circuitalminds.github.io/static/js/desktop/inbox_app.js">
+</script>
+<script src="https://circuitalminds.github.io/static/js/desktop/chat_app.js">
+</script>
+<script>
+		var start = {
+			template: {
+			title: 'Start',
+			buttons: getStorageButtons(),
+			icon: 'windows',
+			content: ''
+			}
+		};
+
+		start.open_window = function () {
+	   		SRC = ' src="https://circuitalminds.github.io/templates/start" ';
+			A = document.getElementsByClassName('window-area')[0];
+			Width = ' width="' + A.clientWidth + 'px" ';
+			Height = ' height="' + A.clientHeight + 'px" ';
+			start.template.content = '<iframe allowfullscreen=true' + Width + Height + SRC + 'frameborder="0" style="display: inline-block; width: 100%; max-height: 100%;"></iframe>';
+	   		openApp(start);
+	};
+
+</script>

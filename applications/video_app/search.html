@@ -1,0 +1,17 @@
+<input id="search-query" onkeyup="on" type="text" data-role="input" data-search-button="false" placeholder="Search for video..">
+<br>
+<div class="dialog" data-role="dialog" id="search-dialog">
+    <div class="card-content dialog-title">Search Result</div>
+        <ul class="cell-md-12 group-list">
+            <li id="left" value=0 class="button-primary on-touch" onclick="set_page(this.value);">
+            <span class="mif-chevron-left mif-2x"></span>
+            </li>
+            <li id="right" value=1 class="button-primary on-touch" onclick="set_page(this.value);">
+            <span class="mif-chevron-right mif-2x"></span>
+            </li>
+        </ul>
+    <div class="dialog-content"></div>
+    <div class="row dialog-actions">
+        <button class="cell button-primary on-touch js-dialog-close flex-justify-center">Close</button>
+    </div>
+</div>

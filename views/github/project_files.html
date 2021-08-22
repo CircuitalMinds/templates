@@ -1,0 +1,94 @@
+<div class="container-fluid pt-4">
+    <div class="container">
+        <div class="place-right">
+            <button class="button">Edit</button>
+        </div>
+        <div>
+            CircuitalMinds. Project
+        </div>
+        <div class="mt-2">
+            {% for item in ['sass', 'css', 'javascript', 'html5', 'python', 'ruby'] %}
+            <code>{{ item }}</code>
+            {% endfor %}
+            <a href="#" class="text-small">Manage topics</a>
+        </div>
+        <hr class="mt-4">
+        <div class="mt-4">
+            <div class="row">
+                <div class="cell-md-6 text-center text-left-md pt-2">
+                    <button class="button small rounded hovered">Branch: <strong> main </strong></button>
+                    <button class="button small rounded hovered">New pull request</button>
+                </div>
+                <div class="cell-md-6 text-center-fs text-right-md pt-2">
+                    {% for item in ['Create new file', 'Uploads files', 'Find file'] %}
+                    <button class="button small rounded hovered">{{ item }}</button>
+                    {% endfor %}
+                    <button class="button small rounded success">Clone or download</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 mt-4 bg-light border bd-default">
+            <div class="row">
+                {% for item, data in {
+                'commits': {'icon': 'history', 'value': 100},
+                'branches': {'icon': 'flow-tree', 'value': 1},
+                'releases': {'icon': 'tag', 'value': 40},
+                'contributors': {'icon': 'users', 'value': 2}
+                }.items() %}
+                <div class="cell-md cell-sm-6 text-center">
+                    <a href="" class="fg-dark fg-cyan-hover no-decor d-flex flex-align-center flex-justify-center">
+                        <span class="mif-{{ data.icon }}"></span>
+                        <span class="text-bold ml-1 mr-1">{{ data.value }}</span>
+                        <span>{{ item }}</span>
+                    </a>
+                </div>
+                {% endfor %}
+
+                <div class="cell-md cell-sm-12 text-center">
+                    <a href="" class="fg-dark fg-cyan-hover no-decor d-flex flex-align-center flex-justify-center">
+                        <span class="mif-balance-scale"></span>
+                        <span class="text-bold ml-1 mr-1">MIT</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div data-role="progress" data-value="75" data-cls-bar="bg-darkMauve" data-cls-back="bg-yellow"></div>
+
+        <div class="mt-4">
+            <div class="p-4 bg-darkTeal border bd-default">
+                <div class="row">
+                    <div class="cell-md-6 text-center text-left-md">
+                        <img height="24" width="24" alt="@circuitalminds"
+                            src="https://avatars.githubusercontent.com/u/75770878?s=400&u=4ca8d3358eb1f584e0b5d893b7ecc61d754a337c&v=4"
+                            class=" avatar-user">
+                        <span class="text-bold reduce-1">circuitalminds</span>
+                        <span class="reduce-1">version 0.0.0</span>
+                    </div>
+                    <div class="cell-md-6 text-center text-right-md">
+                        Latest commit <a href="">#</a> ¿? days ago
+                    </div>
+                </div>
+            </div>
+
+            <table class="table row-border table-border row-hover">
+                <tbody>
+                    {% for name, data in {'Docs': {'href': '#'}}.items() %}
+                    <tr>
+                        <td><span class="mif-folder"></span> <a href="{{ data.href }}">{{ name }}</a></td>
+                        <td><span>version 0.0.0</span></td>
+                        <td><span>¿?</span></td>
+                    </tr>
+                    {% endfor %}
+                    {% for name, data in {'script.py': {'href': '#'}}.items() %}
+                    <tr>
+                        <td><span class="mif-file-empty"></span> <a href="{{ data.href }}">{{ name }}</a></td>
+                        <td><span>version 0.0.0</span></td>
+                        <td><span>¿?</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
