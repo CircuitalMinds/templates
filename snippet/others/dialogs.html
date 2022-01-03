@@ -1,0 +1,241 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="row m-3">
+    <div class="cell-md-4 text-center text-left-md">
+        <h3 class="dashboard-section-title">
+            Dialog
+            <small>
+                information
+            </small>
+        </h3>
+    </div>
+    <div class="cell-md-8 d-flex flex-justify-center flex-justify-end-md">
+        <ul class="breadcrumbs bg-transparent">
+            <li class="page-item">
+                <a class="page-link" href="#">
+     <span class="mif-meter">
+     </span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">
+                    Information
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">
+                    Dialog
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="dialog" data-role="dialog" id="demoDialog1">
+    <div class="dialog-title">
+        Use Windows location service?
+    </div>
+    <div class="dialog-content">
+        Bassus abactors ducunt ad triticum.
+        A fraternal form of manifestation is the bliss.
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">
+            Disagree
+        </button>
+        <button class="button primary js-dialog-close">
+            Agree
+        </button>
+    </div>
+</div>
+<div class="p-1 m-3">
+    <div class="bg-white p-4 text-center">
+        <button class="button" onclick="Metro.dialog.open('#demoDialog1')">
+            Open pre-defined dialog
+        </button>
+        <button class="button alert" onclick="
+        Metro.dialog.create({
+            title: 'Use Windows location service?',
+            content: '&lt;div&gt;Bassus abactors ducunt ad triticum...&lt;/div&gt;',
+            clsDialog: 'alert'
+        });
+        ">
+            Open runtime dialog
+        </button>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog primary pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog secondary pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog light pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog dark pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog alert pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog warning pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog success pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cell-md-6 cell-lg-4 mt-2">
+            <div class="dialog info pos-relative win-shadow">
+                <div class="dialog-title">
+                    Use Windows location service?
+                </div>
+                <div class="dialog-content">
+                    Bassus abactors ducunt ad triticum.
+                    A fraternal form of manifestation is the bliss.
+                </div>
+                <div class="dialog-actions">
+                    <button class="button">
+                        Disagree
+                    </button>
+                    <button class="button primary">
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

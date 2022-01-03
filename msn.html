@@ -1,0 +1,43 @@
+{% assign app=site.data.app.msn %}
+{% for src in app.scripts %}
+<script src="{{ src }}"></script>
+{% endfor %}
+<script>
+var Messages = {
+     random: function (msg=[
+        "Aprendiendo a Escuchar",
+        "Todo es Mas Sencillo"
+     ]) {
+          return msg[Math.round( Math.random() * (msg.length - 1) )];
+    },
+    data: {received: [], sent: []}
+};
+
+function SendMessage ( message ) {
+     Messages.data.received.push(message.text);
+     var chat = $(this).data("chat");
+     setTimeout(function(){
+         var _m = {
+             name: "CircuitalMinds",
+             time: (new Date()),
+             avatar: '{{ site.logo }}',
+             text: Messages.random(),
+             position: "left"
+         };
+         Messages.data.sent.push(_m.text);
+         chat.add(_m);
+     }, 1000 + Math.round(Math.random() * 2000));
+ }
+</script>
+<div id="chat0" class="bg-darkTeal fg-light w-100 h-100"
+     data-role="chat"
+     data-avatar="{{ site.logo }}"
+     data-name="Alan Matzumiya"
+     data-height="400"
+     data-title="Support chat"
+     data-welcome="Welcome to CircuitalMinds chat!"
+     data-cls-message-left="default bg-dark fg-darkTeal"
+     data-cls-message-right="info bg-dark fg-light"
+     data-cls-send-button="info bg-dark fg-darkTeal"
+     data-on-send="SendMessage">
+</div>

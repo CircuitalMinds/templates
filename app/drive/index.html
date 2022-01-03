@@ -1,0 +1,131 @@
+<div class="row border-bottom bd-lightGray">
+{% assign app=site.data.app.drive %}
+{% assign folder=app.folder %}
+{% assign file=app.file %}
+{% for src in app.scripts %}
+<script src="{{ src }}"></script>
+{% endfor %}
+<div class="cell-md-4 text-center text-left-md">
+    <h3 class="dashboard-section-title">{{ site.title | replace:' | ', '' }} | {{ page.title }}</h3>
+</div>
+<div class="cell-md-8 d-flex flex-justify-center flex-justify-end-md">
+<ul class="breadcrumbs bg-light">
+    <li class="pages-item mainbutton ontouch"><div id="time-clock" class="page-link"></div></li>
+    {% for page_name in site.header_pages %}
+    <li class="page-item"><a class="page-link" href="/{{ page_name }}/">{{ page_name }}</a></li>
+    {% endfor %}
+    <li class="pages-item mainbutton ontouch"><div id="get-login" class="page-link">Login</div></li>
+</ul>
+</div>
+</div>
+
+<div class="row m-3">
+<div class="cell-md-3 inbox p-1 bg-transparent">
+    <button class="button mb-3 success">Compose</button>
+    <div data-collapsible="true" data-role="panel" data-title-caption="Folders">
+    <ul class="v-menu inbox-folders mt-4">
+    {% for name in folder.directories %}
+    <li>
+        <a class="dropdown-toggle" href="#">{{ name }} <span class="{{ folder.icon }}"></span></a>
+        <ul id="{{ name }}" class="v-menu" data-role="dropdown"></ul>
+    </li>
+    {% endfor %}
+    </ul>
+</div>
+</div>
+
+<div class="cell-md-8 bg-light">
+<div id="view" class="cell-md-5 img-container rounded fg-dark">
+    <img id="default-view" style="display: block;" src="{{ site.logo }}">
+    <div id="data-view" class="container" style="display: none">
+        <embed class="image fit" width="100%" height="550px" type="text/plain">
+        <embed class="image fit" width="100%" height="550px" type="application/json">
+    </div>
+    <div id="scripts-view" class="container" style="display: none">
+        <embed class="image fit" width="100%" height="550px" type="text/plain">
+    </div>
+    <div id="documents-view" class="container" style="display: none;"></div>
+        <embed class="image fit" width="100%" height="550px" type="application/pdf">
+        <embed class="image fit" width="100%" height="550px" type="text/html">
+    <img id="pictures-view" style="display: none;" src="{{ site.logo }}">
+    <video id="videos-view" style="display: none;" controls></video>
+</div>
+<form class="cell-md-3" action="{{ site.data.api.url }}/api/drive/upload" method=post enctype=multipart/form-data>
+    <input type="file" data-role="file" data-mode="drop" multiple="true"
+           data-on-select="$('#selected-files').html('');
+           $('#data-list')[0].innerHTML = '';
+           $.each(arguments[0], function(){
+           $('#selected-files').append('&lt;div&gt;'+this.name+'&lt;/div&gt;');
+           $('#data-list')[0].innerHTML += '<p>'+this.name+'</p>\n';
+        });" name="files[]"/>
+        <div class="bg-light p-2 overflow reduce-1" id="selected-files" style="height: 270px;"></div>
+        <label class="fg-dark">Selected Files</label><div id="data-list" class="fg-dark"></div>
+    <input type=submit value=Upload>
+</form>
+</div>
+<script>
+var selected_files = $('#selected-files');
+let fileObj = new Object();
+let folderObj = new Object();
+
+fileObj = {{ file | jsonify }};
+folderObj = {{ folder | jsonify }};
+
+folderObj.getFoldersContent = function () {
+    requestObj.get(
+        this.url_data,
+        function ( data ) {
+            folderObj.total_size = data.total_size;
+            for ( folder of data.content.folders ) {
+                folderObj.content.push(folder);
+                $("#"+folder.name)[0].innerHTML = folder.files.map(
+                    x => `<li>
+                          <a onclick="fileObj.Open( '${folder.name}', '${x.filename}' );">
+                             ${x.filename} ${x.date} ${x.size} <span class="${fileObj.icon}"></span>
+                          </a>
+                          </li>`
+                ).join("\n");
+            };
+        }
+    );
+};
+
+fileObj.openPDF = function ( path ) {
+    $("#documents-view")[0].querySelector(
+        'embed[type="application/pdf"]'
+    ).setAttribute( "src", path );
+};
+fileObj.Close = function () {
+    Object.values(this.views).map( x => $(x.view)[0].style.display = "none" );
+    $("#default-view")[0].style.display = "block";
+};
+fileObj.Open = function ( folder, filename ) {
+    this.Close();
+    $("#default-view")[0].style.display = "none";
+    Folder = Object.values(this.views).filter(
+        x => x.types.filter(
+            y => filename.match(y)
+        ).length > 0
+    )[0];
+    Path = [folderObj.path, folder, filename].join("/");
+    if ( $(Folder.view)[0].tagName == "DIV" ) {
+        dataType = "";
+        if ( filename.endsWith("pdf") ) {
+            dataType += "application/pdf";
+        } else if ( filename.endsWith("json") ) {
+            dataType += "application/json";
+        } else {
+            dataType += "text/plain";
+        };
+        $(Folder.view)[0].innerHTML = `<embed class="image fit" width="100%" height="550px" type="${dataType}" src="${Path}">`;
+    } else {
+        $(Folder.view)[0].setAttribute("src", Path);
+    };
+    $(Folder.view)[0].style.display = "block";
+};
+
+$( function () {
+    folderObj.getFoldersContent();
+});
+</script>
+</div>

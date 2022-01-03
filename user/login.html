@@ -1,0 +1,75 @@
+<div class="login-box-center">
+    <form action="javascript:" class="bg-white p-4" data-clear-invalid="2000" data-on-error-form="invalidForm"
+      data-role="validator">
+    <img class="place-right mt-4-minus mr-6-minus" width="200px" src="{{ logo }}"/>
+    <h1 class="mb-0">
+        Login
+    </h1>
+    <div class="text-muted mb-4">
+        Sign in to start your session
+    </div>
+    <div class="form-group">
+        <input data-append="&lt;span class='mif-envelop'&gt;" data-role="input" data-validate="required"
+               placeholder="Email" type="text"/>
+        <span class="invalid_feedback">
+      Please enter a valid email address
+     </span>
+    </div>
+    <div class="form-group">
+        <input data-append="&lt;span class='mif-key'&gt;" data-role="input" data-validate="required"
+               placeholder="Password" type="password"/>
+        <span class="invalid_feedback">
+      Please enter a password
+     </span>
+    </div>
+    <div class="form-group d-flex flex-align-center flex-justify-between">
+        <input data-caption="Remember Me" data-role="checkbox" type="checkbox"/>
+        <button class="button primary">
+            Sign In
+        </button>
+    </div>
+    <div class="text-center m-4">
+        - OR -
+    </div>
+    <div class="form-group">
+        <button class="image-button w-100 mt-1 bg-facebook fg-white" type="button">
+      <span class="mif-facebook icon">
+      </span>
+            <span class="caption">
+       Sign In using Facebook
+      </span>
+        </button>
+        <button class="image-button w-100 mt-1 bg-github fg-white" type="button">
+      <span class="mif-github icon">
+      </span>
+            <span class="caption">
+       Sign In using GitHub
+      </span>
+        </button>
+        <button class="image-button w-100 mt-1 bg-gitlab fg-white" type="button">
+      <span class="mif-gitlab icon">
+      </span>
+            <span class="caption">
+       Sign In using GitLab
+      </span>
+        </button>
+    </div>
+    <div class="form-group border-top bd-default pt-2">
+        <a class="d-block" href="#">
+            I forgot my password
+        </a>
+        <a class="d-block" href="#">
+            Register a new membership
+        </a>
+    </div>
+</form>
+<script>
+function invalidForm(){
+    var form  = $(this);
+    form.addClass("ani-ring");
+    setTimeout(function(){
+        form.removeClass("ani-ring");
+    }, 1000);
+}
+</script>
+</div>

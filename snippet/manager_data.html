@@ -1,0 +1,38 @@
+<script>
+function get_file ( url ) {
+    let request_url = url;
+    var request_data = new Object;
+    let request = new XMLHttpRequest();
+    request.open('GET', request_url);
+    request.send();
+    request.onload = function() {
+        data = request.response;
+        setTimeout( () => {
+            request_data = data;
+            text_data = request_data.split('\n').map( l => `<p>${l}</p>` ).join('\n');
+            view = $("#view")[0].querySelector("div.container");                        
+            view.innerHTML = text_data;
+            view.style.display="block";
+        }, 1000);
+    };
+};
+
+function open_file ( path ) {
+    ["video", "img", "div.container"].map( s => $("#view")[0].querySelector(s).style.display="none" );
+    if ( path.endsWith("mp4") ) {
+        view = $("#view")[0].querySelector("video");
+        view.setAttribute("src", path);
+        view.style.display = "block"
+    } else if ( ["gif", "png", "jpg", "jpeg"].map( x => path.endsWith(x) ).indexOf(true) != -1 ) {        
+        view = $("#view")[0].querySelector("img");
+        view.setAttribute("src", path);
+        view.style.display = "block"        
+    } else if ( path.endsWith("pdf") ) {
+        view = $("#view")[0].querySelector("div.container");                    
+        view.innerHTML = `<embed class="image fit" src="${path}" width="100%" height="550px" type="application/pdf"></embed>`;
+        view.style.display="block";
+    } else {
+        get_file(path);
+    };
+};
+</script>

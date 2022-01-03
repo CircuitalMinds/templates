@@ -1,0 +1,112 @@
+<div id="wrapper">
+    <div class="content-area">
+        <div class="container-fluid">
+            <div class="main">
+                <div class="row sparkboxes mt-4">
+                {% for i in (1..4) %}
+                    <div class="col-md-3">
+                    <div class="box box{{ i }}">
+                    <div class="details"><h3>{{ i }} x 5000</h3><h4>Data-{{ i }}</h4></div>
+                    <div id="spark-{{ i }}"></div>
+                    </div>
+                    </div>
+                {% endfor %}                           
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-5">
+                        <div class="box shadow mt-4">
+                            <div id="radialBarBottom"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="box shadow mt-4">
+                            <div id="line-adwords" class=""></div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row mt-4">
+                    <div class="col-md-5">
+                        <div class="box shadow mt-4">
+                            <div id="barchart"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="box shadow mt-4">
+                            <div id="areachart"></div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="row mt-4">
+                    <div class="col-md-5">
+                        <div class="box shadow">
+                            <div id="bar"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box shadow">
+                            <div id="donutTop"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="box shadow">
+                            <div id="radialBar1"></div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row mt-4 mb-5">                    
+                    <div class="col-md-5">
+                        <div class="box shadow">
+                            <div id="radialBarBottom2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="box shadow">
+                            <div id="bubbleChart"></div>
+                        </div>
+                    </div>                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/dashboard/scripts.js"></script>
+<script>
+function create_chart ( element_id, name, settings ) {
+    var obj = new ApexCharts($("#" + element_id)[0], settings);
+    obj.render();
+};
+function get_request ( url ) {
+    var response = {};
+    var request = new XMLHttpRequest();
+    request.open('GET', url);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+        var data = request.response;
+      	Object.keys(data).map( k => response[k] = data[k] );
+    };	
+    return response;
+};
+var sars_19 = {
+    url: 'https://covid19.mathdro.id/api',
+    countries: []
+};
+window.onload = function () {
+    req = get_request(sars_19.url + '/countries');
+    window.setTimeout( function() {
+        sars_19.countries = req['countries'].map( c => c.name );        
+    }, 1000);
+};
+function get_data ( country ) {
+    sars_19[country] = {};
+    url_data = [sars_19.url, 'countries', country].join('/');
+    data = get_request(url_data);          
+    setTimeout( function() {
+        ['confirmed', 'deaths', 'recovered'].map( v => sars_19[country][v] = data[v].value );       
+    }, 1000);
+};
+</script>

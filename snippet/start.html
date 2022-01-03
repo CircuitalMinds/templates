@@ -1,0 +1,84 @@
+<link href="https://circuitalminds.github.io/static/css/start/start.css" rel="stylesheet"/>
+<div class="bg-dark fg-white h-vh-100 m4-cloak">
+<div class="container-fluid start-screen h-100">
+    <h1 class="start-screen-title"><a class="fg-teal" href="https://circuitalminds.github.io/">Home</a></h1>
+    <div class="tiles-area clear">
+        <div class="tiles-grid tiles-group size-2 fg-white" data-group-title="Propietary and Organization">
+            <a class="bg-teal" data-cover="{{ site.author-avatar }}" data-role="tile"
+               href="https://alanmatzumiya.github.io/"><span class="branding-bar">Alan Matzumiya</span>
+            </a>
+            <a class="bg-teal" data-cover="{{ site.logo }}"
+               data-role="tile" href="{{ site.url }}"><span class="branding-bar">
+                Circuital Minds</span>
+            </a>
+            <div class="bg-teal" data-effect="image-set" data-role="tile" data-size="wide">
+                {% for post in site.posts %}
+                    <img src="{{ site.img }}/{{ post.image }}"/>
+                {% endfor %}
+            </div>
+            <div class="bg-teal" data-effect="image-set" data-role="tile" data-size="wide">
+                {% for post in site.posts %}
+                    <img src="{{ site.img }}/{{ post.image }}"/>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="tiles-grid tiles-group size-2 fg-white" data-group-title="Music App">
+            {% for post in site.posts %}
+                <div class="bg-teal" data-cover="{{ site.img }}/{{ post.image }}" data-role="tile"></div>
+            {% endfor %}
+            <div class="bg-dark border bd-teal" data-role="tile" data-size="small">
+                <span class="mif-previous icon fg-darkTeal border bd-teal"></span>
+            </div>
+            <div class="bg-dark border bd-teal" data-role="tile" data-size="small">
+                <span class="mif-next icon fg-darkTeal border bd-teal"></span>
+            </div>
+            <div class="bg-dark border bd-teal" data-role="tile" data-size="small">
+                <span class="mif-play icon fg-darkTeal border bd-teal"></span>
+            </div>
+            <div class="bg-dark border bd-teal" data-role="tile" data-size="small">
+                <span class="mif-stop icon fg-darkTeal border bd-teal"></span>
+            </div>
+        </div>
+        <div class="tiles-grid tiles-group size-2 fg-white" data-group-title="Python Console">
+            <a class="bg-teal fg-yellow"
+               data-cover="{{ site.img }}/pages/mandelbrot.gif" data-role="tile"
+               href="https://circuitalminds.github.io">
+                <span class="branding-bar">pyFullStack</span>
+            </a>
+            <a class="bg-teal fg-yellow" data-cover="{{ site.img }}/pages/julia.gif"
+               data-role="tile" href="https://circuitalminds.github.io">
+                <span class="branding-bar">pyFullStack</span>
+            </a>
+            <a class="bg-teal" data-cover="{{ site.img }}/pages/zeta_function.gif"
+               data-role="tile" href="https://circuitalminds.herokuapp.com/">
+                <span class="branding-bar">FractalMetric</span>
+            </a>
+            <a class="bg-teal fg-brown"
+               data-cover="{{ site.img }}/pages/desktop.jpg" data-role="tile"
+               href="https://matsuhub.herokuapp.com/">
+                <span class="branding-bar">matsuHub</span>
+            </a>
+        </div>
+        <div class="tiles-grid tiles-group size-2 fg-white" data-group-title="Apps">
+            <a class="bg-teal" data-role="tile" href="/github">
+                <span class="mif-github icon"></span>
+                <span class="branding-bar">Github</span>
+                <span class="badge-bottom">30</span>
+            </a>
+            <div class="bg-teal" data-role="tile"><span class="mif-envelop icon"></span>
+                <span class="branding-bar">Chat</span>
+                <span class="badge-bottom">10</span>
+            </div>
+            <a class="bg-teal" data-role="tile" href="/github"><span class="mif-github icon"></span>
+                <span class="branding-bar">Storage</span>
+                <span class="badge-bottom">30</span>
+            </a>
+            <div class="bg-teal" data-role="tile"><span class="mif-envelop icon"></span>
+                <span class="branding-bar">Email</span>
+                <span class="badge-bottom">10</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="https://circuitalminds.github.io/static/js/views/start.js"></script>
