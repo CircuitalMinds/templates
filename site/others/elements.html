@@ -1,0 +1,100 @@
+<div id="el-data"></div>
+<script>
+let El = new Object();
+El.Data = $("#el-data")[0];
+El.Query = function ( w, q, opt="first" ) {
+    var r = $({
+        Id: "#",
+        Tag: "",
+        Cls: "."
+    }[w] + q);
+    return ( opt == "first" || w == "Id" ) ? r[0] : r;
+};
+El.iterNodes = function ( x, cls, func ) {
+    Object.values( x.querySelector( cls ).childNodes ).map( func );
+};
+El.iterAll = function ( x, cls, func ) {
+    Object.values( x.querySelectorAll( cls ) ).map( func );
+};
+El.addClass = function ( w, q, cls ) {
+    $({
+        Id: "#",
+        Tag: "",
+        Cls: "."
+    }[w] + q).addClass( cls );
+};
+El.Copy = function ( x ) {
+    return x.cloneNode(true);
+};
+El.bodySize = function ( scale=1.0 ) {
+    var Body = document.body;
+    return {
+        w: Math.round( Body.clientWidth * scale ) + "px",
+        h: Math.round( Body.clientHeight * scale ) + "px"
+    };
+}
+El.createObj = function ( name, content ) {
+    var el = document.createElement( name );
+    el.innerHTML = content;
+    return el;
+};
+El.getSize = function ( x ) {
+    var S = x.getBoundingClientRect();
+    return {"w": S.width, "h": S.height, x: S.x, y: S.y};
+};
+El.setStyle = function ( x, key, value ) { x.style[key] = value };
+El.Hide = function ( x ) { this.setStyle( x, "display", "none" ) };
+El.Show = function ( x ) { this.setStyle( x, "display", "block" ) };
+El.Get = function ( q ) { return this.Copy( this.Data.querySelector( "." + q ) ) };
+
+El.Clock = function () {
+    var clock = this.Query( "Id", "clock-time" );
+    setInterval( function () {
+        var t = new Date();
+        clock.innerHTML = t.toLocaleTimeString();
+    }, 1e3);
+};
+El.Date = function () {
+    var d = new Date();
+    this.Query( "Id", "date-time" ).innerHTML = d.toLocaleDateString();
+};
+
+El.getObj = function ( w, q, i ) {
+    var obj = this.Query(w, q, "all");
+    if ( i != undefined  ) {
+        obj = obj[i];
+    };
+    obj.Hide = function () {
+        this.style.display = "none";
+    };
+    obj.Show = function () {
+        this.style.display = "block";
+    };
+    obj.Pos = function () {
+        var P = this.getBoundingClientRect();
+        return {x: [P.left, P.right], y: [P.bottom, P.top], w: P.width, h: P.height};
+    };
+    obj.setX = function ( x ) {
+        var dx = this.Pos().w;
+        this.style.left = x + "px";
+        this.style.width = dx + "px";
+    };
+    obj.setY = function ( y ) {
+        var dy = this.Pos().h;
+        this.style.bottom = y + "px";
+        this.style.height = dy + "px";
+    };
+    obj.setW = function ( w ) {
+        this.style.width = w + "px";
+    };
+    obj.setH = function ( h ) {
+        this.style.height = h + "px";
+    };
+    return obj;
+};
+
+$( function () {
+    if ( El.Query ( "Id", "clock-time" ) != undefined ) { El.Clock() };
+    if ( El.Query ( "Id", "date-time" ) != undefined ) { El.Date() };
+});
+</script>

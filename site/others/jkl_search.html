@@ -1,0 +1,46 @@
+<script>
+let JKL = new Object();
+JKL.Template = {
+    site: {
+        "searchInput": "js-search-input",
+        "resultsContainer": "js-results-container",
+        "json": "/search.json",
+        "searchResultTemplate": Str.join([
+            "<li class='search-item'><a class='search-link' href='{url}'>{title}</a></li>"
+        ]),
+        "noResultsText": Str.join([
+            "<li class='search-no-item'>No results found</li>"
+        ])
+    },
+    videos: {
+        "searchInput": "query",
+        "resultsContainer": "jkl-results",
+        "json": Static.Data.videos.query,
+        "searchResultTemplate": Str.join([
+            `<li class="button card-content bg-darkTeal bg-dark-hover fg-light" onclick='VahnGraff.Player.setVideo( "{image}" );'>`,
+            `<img class="avatar" src="{image}">`,
+            `<span class="label">{title}</span>`,
+            `<span class="second-label">{duration}</span></li>`
+        ]),
+        "noResultsText": Str.join([
+            '<li class="button card-content bg-darkTeal bg-dark-hover fg-light">',
+            'Video Not Found',
+            '</li>'
+        ])
+    }
+};
+JKL.forLoads = [];
+JKL.Set = function ( x ) {
+    var y = this.Template[x];
+    if ( y != undefined ) {
+        this.forLoads.push( y );
+    };
+};
+JKL.Render = function () {
+    this.forLoads.map( function ( t ) {
+        t.searchInput = $( "#" + t.searchInput )[0];
+        t.resultsContainer = $( "#" + t.resultsContainer )[0];
+        SimpleJekyllSearch( t );
+    });
+};
+</script>

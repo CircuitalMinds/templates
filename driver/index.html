@@ -1,0 +1,13 @@
+{% if folder %}
+    <ul>
+    {% for file in folder.files %}
+    <li><a href='{{ path }}/{{ folder.name }}?filepath={{ file.path }}'>{{ file.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <ul>
+    {% for name in folders %}
+    <li><a href='{{ path }}/{{ name }}'>{{ name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endif %}

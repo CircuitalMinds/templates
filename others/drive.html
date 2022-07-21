@@ -1,3 +1,32 @@
+  {% assign folder = include.folder %}
+
+<div data-collapsible="true" data-role="panel"
+        data-title-caption='<span>Folders</span>'>
+    <ul class="folders v-menu inbox-folders mt-4">
+        {% for x in folder.names %}
+        <li class="folder-{{ x }}">
+            <a class="dropdown-toggle" href="#">
+            {{ x | capitalize }}<span class="{{ folder.icon }}"></span>
+            </a>
+            <ul class="folder-{{ x }}-files v-menu" data-role="dropdown"></ul>
+        </li>
+        {% endfor %}
+    </ul>
+    <form action="/api/drive/upload" method=post enctype=multipart/form-data>
+    <input type="file" data-role="file" data-mode="drop" multiple="true"
+            data-on-select="$('#selected-files').html('');
+            $('#data-list')[0].innerHTML = '';
+            $.each(arguments[0], function(){
+            $('#selected-files').append('&lt;div&gt;'+this.name+'&lt;/div&gt;');
+            $('#data-list')[0].innerHTML += '<p>'+this.name+'</p>\n';
+        });" name="files[]"/>
+        <div class="bg-light p-2 overflow reduce-1" id="selected-files" style="height: 270px;"></div>
+        <label class="fg-dark">Selected Files</label><div id="data-list" class="fg-dark"></div>
+    </form>
+</div>
+
+
+
 <div class="row border-bottom bd-lightGray">
 {% assign app=site.data.app.drive %}
 {% assign folder=app.folder %}

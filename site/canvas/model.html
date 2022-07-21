@@ -1,0 +1,110 @@
+{% if include.name == 'sieve' %}
+<div id="sieve" class="container">
+    <div class="row">
+    <p>Cantidad de Números Primos \(\Phi (n)=\) <span class="sieve-phi"></span></p>
+    </div>
+    <div class="row">
+        <p>\(\displaystyle{ \pi = \sqrt{6 \cdot \prod_{i=1}^{\infty} \frac{1}{1-(p_{i})^{-2}} } = \prod_{i=1}^{\infty} f_{i}}\)</p>
+    </div>
+    <div class="row">
+        <p>\(\displaystyle{ \pi \approx \prod_{i=1}^{\Phi (n)} f_{i} = }\) <span class="sieve-pi"></span></p>
+    </div>
+    <div class="row">
+        <p> \(n=\) <span class="sieve-n"></span></p>
+    </div>
+    <div class="slider-container">
+        <input value="10" type="range" class="sieve-slide slider" min="1" max="500" step="10" oninput=""/>
+    </div>
+    <br>
+    <div class="sieve-fig row">
+        <canvas id="fig"></canvas>
+    </div>
+    <br>
+</div>
+<script>
+function View ( z ) {
+    z.innerHTML = '<canvas style="width: 100%; display: inline-block;"></canvas>';
+    var fz = z.querySelector( "canvas" );
+    fz.setW = function ( w ) {
+        this.width = w;
+    };
+    fz.setH = function ( h ) {
+        this.height = h;
+    };
+    fz.ctx = fz.getContext("2d");
+    fz.clear = function () {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+    };
+    fz.plot = function ( q, p ) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(q, this.height - p);
+        for ( var i = 0; i < q.length; i++ ) {
+            this.ctx.lineTo(q[i], this.height - p[i]);
+            this.ctx.stroke();
+        };
+    };
+    fz.grad = fz.ctx.createLinearGradient( 0, 0, fz.width, fz.height );
+    fz.fillSty = function ( data ) {
+        var grad = ( data ) ? data : this.grad;
+        this.ctx.fillStyle = grad;
+        this.ctx.fillRect( 0, 0, this.width, this.height );
+    };
+    fz.strokeSty = function ( data ) {
+        var grad = ( data ) ? data : this.grad;
+        this.ctx.strokeStyle = grad;
+    };
+    fz.strokeTxt = function ( data, x, y ) {
+        this.ctx.strokeText( data, x, y );
+    };
+    return fz;
+};
+
+function getSieve () {
+    var sieve = $( "#sieve" )[0];
+    sieve.get = function ( q ) {
+        return this.querySelector( ".sieve-" + q );
+    };
+    sieve.phi = sieve.get( "phi" );
+    sieve.pi = sieve.get( "pi" );
+    sieve.n = sieve.get( "n" );
+    sieve.slide = sieve.get( "slide" );
+    sieve.fig = View( sieve.get( "fig" ) );
+
+    sieve.slide.onchange = function () {
+        var w = sieve.fig.width / 10;
+        sieve.fig.setH( w + w * ( this.value / 10 ) );
+        sieve.table.iter( this.value );
+    };
+    sieve.table = {
+        generator: [2, 3, 5, 7],
+        isPrime: function ( i ) {
+            if ( i <= 7 ) {
+                return this.generator.indexOf( i ) != -1;
+            } else {
+                return this.generator.filter(
+                    e => i % e != 0
+                ).length == 4;
+            };
+        },
+        iter: function ( n ) {
+            var xn = 1;
+            var w = sieve.fig.width / 10;
+            sieve.fig.ctx.beginPath();
+            sieve.fig.ctx.stroke();
+            for ( var i = 0; i < n / 10; i++ ) {
+                for (var j = 0; j < 10; j++ ) {
+                    if ( this.isPrime( xn ) ) {
+                        sieve.fig.strokeTxt( xn, j * w + w / 4, i * w + 3 * w / 4 );
+                    };
+                    sieve.fig.ctx.rect(j * w, i * w, w, w);
+                    xn += 1;
+                };
+            };
+            sieve.fig.ctx.stroke();
+        }
+    };
+    sieve.fig.ctx.font = "15px Arial";
+    return sieve;
+}
+</script>
+{% endif %}

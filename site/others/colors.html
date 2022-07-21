@@ -1,0 +1,29 @@
+<script>
+let Color = {};
+Color.Data = {{ site.data.colors | jsonify }};
+Color.Get = function ( name ) {
+    return this.Data[name];
+};
+Color.Random = function ( n=1 ) {
+  	var data = [];
+  	var Gen = "0123456789ABCDEF";
+  	var c = "#";
+	for ( var i = 0; i < n; i ++ ) {
+  		for ( var j = 0; j < 6; j++ ) {
+      		c += Gen[Sample.Int( 0, Gen.length - 1 )];
+      	};
+      	data.push( c );
+      	c = "#";
+    };
+    return ( n == 1 ) ? data[0] : data;
+};
+Color.Grad = function ( Data ) {
+    var grd = "background-image: linear-gradient(60deg";
+    var Len = Data.length;
+    var dn = Math.round( 100 / Len );
+    function iterColor ( c, l ) { grd += ", " + c + " " + l + "%" };
+    for ( var n = 0; n < Len - 1; n++ ) { iterColor( Data[n], (n + 1) * dn ) };
+    iterColor( Data[Len - 1], 100 );
+    return grd + "); background-size: cover;";
+};
+</script>

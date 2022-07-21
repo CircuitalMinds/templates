@@ -1,0 +1,33 @@
+<script>
+let Timer = {
+    delay: 1e3,
+    offset: 1e3,
+    counter: 0,
+    init: function ( t ) {
+        this.counter = 0;
+        this.wait(t);
+        this.task = setInterval(
+            function() {
+                Timer.counter += 1;
+                Print( "counter: " + Timer.counter );
+        }, this.delay );
+    },
+    stop: function () {
+        clearTimeout( this.off );
+        clearInterval( this.task );
+        Print( "finished" );
+    },
+    wait: function ( t ) {
+        this.off = setInterval( function() {
+            if ( t < Timer.counter ) {
+                Timer.stop();
+            } else {
+                Print( "waiting: " + Timer.counter );
+            };
+        }, this.offset );
+    }
+};
+function eventListener ( x, name, func ) {
+    x.addEventListener( name, func );
+};
+</script>
