@@ -1,0 +1,29 @@
+<div class="row" id="cover" style="background-image: url('/{{ site.img }}/posts/circuital/cascade_0.gif');">
+<div class="container" style="float : left; width : 45%">
+<h2>Lyrics</h2>
+{% for s in site.data.lyrics.english[0] %}
+<p class="lyrics"><span style="height: 26px;">{{ s }}</span><br></p>
+{% endfor %}
+</div>
+<div class="container" style="float : left; width : 45%">
+<h2>Traduction</h2>
+{% for s in site.data.lyrics.spanish[0] %}
+<p class="lyrics"><span style="height: 26px;">{{ s }}</span><br></p>
+{% endfor %}
+</div>
+</div>
+
+{% for i in (1..site.data.lyrics.english.size) %}
+<div class="row" id="cover" style="background-image: url('/{{ site.img }}/posts/circuital/cascade_{{ i }}.gif');">
+<div class="container" style="float : left; width : 45%">
+{% for s in site.data.lyrics.english[i] %}
+<p class="lyrics"><span style="height: 26px;">{{ s }}</span><br></p>
+{% endfor %}
+</div>
+<div class="container" style="float : left; width : 45%">
+{% for s in site.data.lyrics.spanish[i] %}
+<p class="lyrics"><span style="height: 26px;">{{ s }}</span><br></p>
+{% endfor %}
+</div>
+</div>
+{% endfor %}

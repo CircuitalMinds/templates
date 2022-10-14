@@ -1,0 +1,66 @@
+***
+
+<div class="container">
+<p>
+    Otra clase de fractales pueden ser generados mediante la siguiente recursión definida sobre el plano complejo,
+</p>
+<p>
+    \({\displaystyle {\begin{cases}z_{0}=z\in \mathbb {C} &{\text{(término inicial)}}\qquad \\z_{n+1}=z_{n}^{2}+c&{\text{(sucesión recursiva)}}\end{cases}}}\)
+</p>
+<p>
+    Estás ecuaciones pueden llegar a definir una extensa familia de fractales, y una de ellas está dado por el conjunto de Julia que contiene todos los números complejos que satisfacen \({\displaystyle | z_{n} | \leq 4}\), generando el fractal de Julia que es mostrado debajo y que puede alterar su forma tocando cualquier punto a su alrededor.
+</p>
+<br>
+<div class="container"><iframe allowfullscreen="allowfullscreen" width="505px" height="300px" style='display: inline-block; width: 100%; max-height: 100%;' title="inline-website-frame" src="https://alanmatzumiya.github.io/fractals/Julia/"></iframe></div>
+</div>
+
+***
+
+<div class="container">
+    <p>Usando la ecuación anterior, y fijando un valor inicial \(z_{0}=0\), para establecer el conjunto de números complejos tales que \({\displaystyle | z_{n} | \leq 4}\), nos define el conocido fractal de Mandelbrot. Precisamente, este es el mismo de la imagen que fue mostrada en el inicio de este post pero con una configuración diferente de colores pero que pueden ser modificados en los deslizadores debajo, que además permiten mover coordenadas para obtener otras vistas de la misma imagen.</p>
+    <h4>Coordenadas</h4>
+    <br>
+    <div class="row">
+      <p>\(z_p=\) <span id="Mandelbrot-out-zoom">200</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="Mandelbrot-zoom" value="200" type="range" class="slider" min="1" max="1000" step="1" oninput="canvasObj.Models.Mandelbrot();"/>
+    </div>
+    <div class="row">
+      <p>\(x_p=\) <span id="Mandelbrot-out-xp">-200</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="Mandelbrot-xp" value="-200" type="range" class="slider" min="-1000" max="1000" step="1" oninput="canvasObj.Models.Mandelbrot();"/>
+    </div>
+    <div class="row">
+      <p>\(y_p=\) <span id="Mandelbrot-out-yp">0</span></p>
+    </div>
+    <div class="slidecontainer">
+      <input id="Mandelbrot-yp" value="0" type="range" class="slider" min="-1000" max="1000" step="1" oninput="canvasObj.Models.Mandelbrot();"/>
+    </div>
+    <br>
+    <div id="Mandelbrot" class="row"></div>
+    <br>
+    <h4>Colores</h4>
+    <br>
+    <div class="row">
+      <p>\(r=\) <span id="Mandelbrot-out-r">100</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="Mandelbrot-r" value="100" type="range" class="slider" min="0" max="255" step="1" oninput="canvasObj.Models.Mandelbrot();"/>
+    </div>
+    <div class="row">
+      <p>\(g=\) <span id="Mandelbrot-out-g">0</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="Mandelbrot-g" value="0" type="range" class="slider" min="0" max="255" step="1" oninput="canvasObj.Models.Mandelbrot();"/>
+    </div>
+    <div class="row">
+      <p>\(b=\) <span id="Mandelbrot-out-b">100</span></p>
+    </div>
+    <div class="slidecontainer">
+      <input id="Mandelbrot-b" value="100" type="range" class="slider" min="0" max="255" step="1" oninput="canvasObj.Models.Mandelbrot();"/>
+    </div>
+</div>
+
+***

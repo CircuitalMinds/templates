@@ -1,0 +1,57 @@
+Aunque la geometria de los fractales no este relacionada con el azar, aparentemente sus estructuras asimilan este comportamiento, y debido a esto, son relacionados con lo caotico; o mas bien, aquello que presenta incertidumbre con dinamicas irregulares. En general, estos objetos pueden estar presentes en cualquier dinamica que produce ciclos preservando similitudes entre si, tal como sucede en los llamados atractores de Lorenz que son mostrados debajo.
+
+***
+
+<div class="container">
+    <h3>Lorenz Attractor: Butterfly Effect</h3>
+    <p>Si observamos, al modificar los deslizadores es posible que las trayectorias se muevan sin rumbo hacia afuera del plano como si existiera algun tipo de repulsion. Otro caso posible es el que vemos inicialmente, ocurriendo lo contrario produciendo trayectorias que se mantienen cerca de una zona girando a su alrededor tal como es la dinamica de los planetas del sistema solar que son atraidos por el Sol, y que ademas producen una figura conocida como El Efecto Mariposa.
+    </p>
+    <br>
+    <div class="row">
+      <p>\( \displaystyle \frac{dx}{dt}=a(y-x) \), \(\hspace{1.7cm} x_0=\) <span id="LorenzAttractor-out-x0">0</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="LorenzAttractor-x0" value="0" type="range" class="slider" min="-40" max="40" step="0.5" oninput="canvasObj.Models.LorenzAttractor();"/>
+    </div>
+    <div class="row">
+      <p>\( \displaystyle \frac{dy}{dt}=x(b-z)-y \), \(\hspace{1cm} y_0=\) <span id="LorenzAttractor-out-y0">1</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="LorenzAttractor-y0" value="1" type="range" class="slider" min="-40" max="40" step="0.1" oninput="canvasObj.Models.LorenzAttractor();"/>
+    </div>
+    <div class="row">
+      <p>\( \displaystyle \frac{dz}{dt}=xy-cz \), \(\hspace{1.9cm} z_0=\) <span id="LorenzAttractor-out-z0">10</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="LorenzAttractor-z0" value="10" type="range" class="slider" min="-40" max="40" step="0.1" oninput="canvasObj.Models.LorenzAttractor();"/>
+    </div>
+</div>
+
+<div id="LorenzAttractor" class="container"></div>
+
+<p>Con los siguientes parámetros es posible observar que para asegurar un comportamiento de atracción se requieren valores de signos opuestos, y en caso contrario para producir una repulsión.</p>
+<div class="container">
+    <div class="row">
+      <p>\(a=\) <span id="LorenzAttractor-out-a">-6</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="LorenzAttractor-a" value="-6" type="range" class="slider" min="-40" max="40" step="0.1" oninput="canvasObj.Models.LorenzAttractor();"/>
+    </div>
+    <div class="row">
+      <p>\(b=\) <span id="LorenzAttractor-out-b">28</span></p>
+    </div>
+    <div class="slidecontainer">
+    <input id="LorenzAttractor-b" value="28" type="range" class="slider" min="-40" max="40" step="0.1" oninput="canvasObj.Models.LorenzAttractor();"/>
+    </div>
+    <div class="row">
+      <p>\(c=\) <span id="LorenzAttractor-out-c">0</span></p>
+    </div>
+    <div class="slidecontainer">
+      <input id="LorenzAttractor-c" value="0" type="range" class="slider" min="-40" max="40" step="0.1" oninput="canvasObj.Models.LorenzAttractor();"/>
+    </div>
+</div>
+
+
+No se requiere ser un genio para divagar en esta clase de arte matematico, solamente liberando inquietud y deseo por conocer nuevas formas de todo lo perceptible es suficiente; Y si alguno de tus sueños fuera descubrir un fractal que inspire radicalmente al arte moderno, tal sueño fuera replicado ``` Un millon de veces ```, y segun ``` Cantor ``` da igual si fueran ``` Infinitas ```.
+
+***

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     {% include 'head.html' %}
-    <script src="static/js/utils.js"></script>
-    <title>App</title>
-<body>
-{{ content | default("", true) }}
+    <script src="/static/index.js"></script>
+    <title>Api</title>
+<body class="spectral-gradient">
+
+{% if view %}{% include view %}{% endif %}
+
 </body>
 </html>
